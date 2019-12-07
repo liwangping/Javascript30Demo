@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JS Drum Kit</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+    <div class="keys">
+        <div data-key="65" class="key">
+            <kbd>A</kbd>
+            <span class="sound">clap</span>
+        </div>
+        <div data-key="83" class="key">
+            <kbd>S</kbd>
+            <span class="sound">hihat</span>
+        </div>
+        <div data-key="68" class="key">
+            <kbd>D</kbd>
+            <span class="sound">kick</span>
+        </div>
+        <div data-key="70" class="key">
+            <kbd>F</kbd>
+            <span class="sound">openhat</span>
+        </div>
+        <div data-key="71" class="key">
+            <kbd>G</kbd>
+            <span class="sound">boom</span>
+        </div>
+        <div data-key="72" class="key">
+            <kbd>H</kbd>
+            <span class="sound">ride</span>
+        </div>
+        <div data-key="74" class="key">
+            <kbd>J</kbd>
+            <span class="sound">snare</span>
+        </div>
+        <div data-key="75" class="key">
+            <kbd>K</kbd>
+            <span class="sound">tom</span>
+        </div>
+        <div data-key="76" class="key">
+            <kbd>L</kbd>
+            <span class="sound">tink</span>
+        </div>
+    </div>
+
+    <audio data-key="65" src="sounds/clap.wav"></audio>
+    <audio data-key="83" src="sounds/hihat.wav"></audio>
+    <audio data-key="68" src="sounds/kick.wav"></audio>
+    <audio data-key="70" src="sounds/openhat.wav"></audio>
+    <audio data-key="71" src="sounds/boom.wav"></audio>
+    <audio data-key="72" src="sounds/ride.wav"></audio>
+    <audio data-key="74" src="sounds/snare.wav"></audio>
+    <audio data-key="75" src="sounds/tom.wav"></audio>
+    <audio data-key="76" src="sounds/tink.wav"></audio>
+
+    <script>
+
+        function playSound(e){
+            // console.log(e.keyCode);
+            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`); // 根据e.keyCode拿到音频，比如说<audio data-key="65" src="sounds/clap.wav"></audio>
+            const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);     // 根据e.keyCode拿到相应的div ，比如说<div data-key="76" class="key">         
+            // console.log(key);
+            if(!audio) return;  // 停止那些没有被设置的对象
+            audio.currentTime = 0; //重置这个audio
+            audio.play();
+            key.classList.add('playing');//添加playing样式
+        }
+        
+        
+        function removeTransition(e) {
+            if(e.propertyName !== 'transform') return; // 如果properyName是transform，那么将其跳过。
+            // console.log(this);
+            this.classList.remove('playing');   // this指的是传进来的那个html结构
+        };
+
+        const keys = document.querySelectorAll('.key'); //拿到所有class为.key的元素
+        // keys.addEventListener('')
+        // 因为transitionend事件结束的时候，会触发这个事件， 而这个事件的的监听范围是在整个class为.key的的集合中。
+        keys.forEach(key => key.addEventListener('transitionend', removeTransition)); 
+        // 对每个key增加transitionend事件， 
+
+        window.addEventListener('keydown', playSound); // 最后分离出来了
+    </script>
+
+
+</body>
+
+</html>
