@@ -63,6 +63,7 @@
 
         function playSound(e){
             // console.log(e.keyCode);
+            // 找到相应的div元素
             const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`); // 根据e.keyCode拿到音频，比如说<audio data-key="65" src="sounds/clap.wav"></audio>
             const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);     // 根据e.keyCode拿到相应的div ，比如说<div data-key="76" class="key">         
             // console.log(key);
@@ -85,7 +86,7 @@
         keys.forEach(key => key.addEventListener('transitionend', removeTransition)); 
         // 对每个key增加transitionend事件， 
 
-        window.addEventListener('keydown', playSound); // 最后分离出来了
+        window.addEventListener('keydown', playSound); // 最后分离出来了  1. 监听键盘按键的事件
     </script>
 
 
